@@ -62,7 +62,7 @@ thawed item: strarg
 thawed item: 1.2
 ```
 
-See the [test cases](#test/python/tests.py) for more examples.
+See the [test cases](test/python/tests.py) for more examples.
 
 
 ### NLP Complex Example
