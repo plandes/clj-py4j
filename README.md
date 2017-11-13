@@ -1,5 +1,7 @@
 # Python to Clojure Bridge
 
+[![Travis CI Build Status][travis-badge]][travis-link]
+
 Python to Clojure Bridge using a Py4J Gateway.  This simple library aims to
 make it easy and trivial to invoke [Clojure] from [Python] using the [py4j]
 gateway server and API.
@@ -189,3 +191,5 @@ limitations under the License.
 [py4j]: https://www.py4j.org
 [Clojure]: https://clojure.org
 [Python]: https://www.python.org
+[travis-link]: https://travis-ci.org/plandes/clj-py4j
+[travis-badge]: https://travis-ci.org/plandes/clj-py4j.svg?branch=master
