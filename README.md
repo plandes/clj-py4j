@@ -121,7 +121,8 @@ def test():
    `$ wget https://github.com/plandes/clj-py4j/releases/download/v0.0.1/py4jgw.zip`
 2. Extract: `$ unzip py4jgw.zip`
 3. Run the server: `$ /bin/bash ./py4jgw/bin/py4jgw` (or `py4jgw\bin\py4jgw.bat`)
-4. [Hack](#usage) in python.
+4. Install the Python library: `$ pip install zensols.clojure`
+5. [Hack!](#usage)
 
 
 ## Obtaining
