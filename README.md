@@ -43,7 +43,7 @@ The end to end request looks like:
 First [download, install and run the server](#installing-and-running)
 
 ```python
-from clojure import ClojureWrapper
+from zensols.clojure import ClojureWrapper
 
 def test():
     cw = ClojureWrapper('taoensso.nippy')
@@ -82,7 +82,7 @@ model:
 
 ```python
 import json
-from clojure import ClojureWrapper
+from zensols.clojure import ClojureWrapper
 
 def test():
     parse = ClojureWrapper('zensols.nlparse.parse')
@@ -130,17 +130,16 @@ In your `project.clj` file, add:
 
 [![Clojars Project](https://clojars.org/com.zensols.py4j/gateway/latest-version.svg)](https://clojars.org/com.zensols.py4j/gateway/)
 
+### Binaries
+
+The latest release binaries are
+available [here](https://github.com/plandes/clj-py4j/releases/latest).
+
 
 ## Documentation
 
 * [Clojure](https://plandes.github.io/clj-py4j/codox/index.html)
 * [Java](https://plandes.github.io/clj-py4j/apidocs/index.html)
-
-
-## Binaries
-
-The latest release binaries are
-available [here](https://github.com/plandes/clj-py4j/releases/latest).
 
 
 ## Building

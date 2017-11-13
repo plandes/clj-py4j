@@ -9,6 +9,9 @@ ANRRES=		py4jgw
 REL_DIST ?=	$(REL_ZIP)
 
 all:		info
+tmp:
+#		make clean pydist
+		PYTHONPATH=/Users/landes/opt/lib/python/lib/python3.6/site-packages:src/python python test/python/tests.py 
 
 include $(ZBHOME)/src/mk/compile.mk
 include $(ZBHOME)/src/mk/dist.mk

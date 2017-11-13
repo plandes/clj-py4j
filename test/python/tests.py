@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 import unittest, logging, sys
-from clojure import ClojureWrapper
+from zensols.clojure import ClojureWrapper
 
 logger = logging.getLogger('py4j.clojure')
 
 class TestClojureWrapper(unittest.TestCase):
     def test_call(self):
-        self.assertEquals('test||one||2234', ClojureWrapper.call('clojure.string', 'join', '||', ['test', 'one', 2234]))
+        self.assertEqual('test||one||2234', ClojureWrapper.call('clojure.string', 'join', '||', ['test', 'one', 2234]))
 
     def test_nippy(self):
         cw = ClojureWrapper('taoensso.nippy')
@@ -15,9 +15,9 @@ class TestClojureWrapper(unittest.TestCase):
             cw.add_depenedency('com.taoensso', 'nippy', '2.13.0')
             dat = cw.invoke('freeze', [123, 'strarg', 1.2])
             thawed = cw.invoke('thaw', dat)
-            self.assertEquals(123, thawed[0])
-            self.assertEquals('strarg', thawed[1])
-            self.assertEquals(1.2, thawed[2])
+            self.assertEqual(123, thawed[0])
+            self.assertEqual('strarg', thawed[1])
+            self.assertEqual(1.2, thawed[2])
         finally:
             cw.close()
 
