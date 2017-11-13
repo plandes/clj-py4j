@@ -68,8 +68,9 @@ See the [test cases](test/python/tests.py) for more examples.
 ### NLP Complex Example
 
 This example uses the [NLP Clojure Project] parse function.  The `py4jgw`
-(gateway) script needs to be started with the following system property and can
-be enabled by adding it to the environment setup script:
+(gateway) needs
+the [models installed](https://github.com/plandes/clj-nlp-parse#setup) and the
+following system property set by adding it to the environment setup script:
 
 ```bash
 $ echo 'JAVA_OPTS="-Dzensols.model=${HOME}/opt/nlp/model"' > py4jgw/bin/setupenv
