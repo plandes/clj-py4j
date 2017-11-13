@@ -5,11 +5,14 @@
             :url "https://www.apache.org/licenses/LICENSE-2.0"
             :distribution :repo}
   :plugins [[lein-codox "0.10.3"]
+            [lein-javadoc "0.3.0"]
             [org.clojars.cvillecsteele/lein-git-version "1.2.7"]]
   :codox {:metadata {:doc/format :markdown}
           :project {:name "Python to Clojure Bridge"}
           :output-path "target/doc/codox"
           :source-uri "https://github.com/plandes/clj-py4j/blob/v{version}/{filepath}#L{line}"}
+  :javadoc-opts {:package-names ["com.zensols.app"]
+                 :output-dir "target/doc/apidocs"}
   :git-version {:root-ns "zensols.py4j"
                 :path "src/clojure/zensols/py4j"
                 :version-cmd "git describe --match v*.* --abbrev=4 --dirty=-dirty"}

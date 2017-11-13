@@ -3,9 +3,10 @@ package com.zensols.app;
 import org.projectodd.shimdandy.ClojureRuntimeShim;
 
 /**
- * Stand along app needs to be called with a <em>modifyable</em> parent classloader.
+ * Stand along app needs to be called with a <em>modifyable</em> parent
+ * classloader.
  *
- * @see https://github.com/cemerick/pomegranate#urlclassloader-modifiability
+ * @see <a href="https://github.com/cemerick/pomegranate#urlclassloader-modifiability">URLClassLoader modifiability issue</a>
  * @author Paul Landes
  */
 public class App {
