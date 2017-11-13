@@ -133,7 +133,8 @@ In your `project.clj` file, add:
 
 ## Documentation
 
-API [documentation](https://plandes.github.io/clj-py4j/codox/index.html).
+* [Clojure](https://plandes.github.io/clj-py4j/codox/index.html)
+* [Java](https://plandes.github.io/clj-py4j/apidocs/index.html)
 
 
 ## Binaries
