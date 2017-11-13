@@ -11,11 +11,12 @@ usage:
 
   ClojureWrapper.call("clojure.string", "join", "||", ["test", "one", 2234])
     """
-    def __init__(self, namespace=None, address='127.0.0.1', port=25333):
-        self.params = GatewayParameters(address=address, port=port)
+    def __init__(self, namespace=None, address='127.0.0.1', port=25333,
+                 gateway=None):
         self.ns_name = namespace
         self.ns_obj = None
-        self.gateway = None
+        self.params = GatewayParameters(address=address, port=port)
+        self.gateway = gateway
 
     def _java_object(self, o):
         """Convert **o** to a Java object usable by the gateway."""
