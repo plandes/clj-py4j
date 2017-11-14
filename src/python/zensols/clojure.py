@@ -3,13 +3,13 @@ import logging
 
 logger = logging.getLogger('py4j.clojure')
 
-class ClojureWrapper(object):
+class Clojure(object):
     """
     Invoke Clojure call via a py4j gateway.
 
 usage:
 
-  ClojureWrapper.call("clojure.string", "join", "||", ["test", "one", 2234])
+  Clojure.call("clojure.string", "join", "||", ["test", "one", 2234])
     """
     def __init__(self, namespace=None, address='127.0.0.1', port=25333,
                  gateway=None):
@@ -22,6 +22,8 @@ usage:
         """Convert **o** to a Java object usable by the gateway."""
         if isinstance(o, list) or isinstance(o, tuple):
             return self._java_array(o)
+        elif isinstance(o, dict):
+            return self._java_map(o)
         return o
 
     def _java_array(self, args):
@@ -31,6 +33,12 @@ usage:
         for i in range(alen):
             jargs[i] = self._java_object(args[i])
         return jargs
+
+    def _java_map(self, odict):
+        m = self._jvm.java.util.HashMap()
+        for k, v in odict.items():
+            m.put(k, v)
+        return m
 
     @property
     def _gw(self):
@@ -66,6 +74,10 @@ usage:
         jargs = self._java_array(args)
         return self.get_namespace().invoke(function_name, jargs)
 
+    def eval(self, code, context=None):
+        context = self._java_object(context)
+        return self.get_namespace().eval(code, context)
+
     def close(self):
         """Close the gateway."""
         logger.info('shutting down')
@@ -90,7 +102,7 @@ usage:
     @classmethod
     def call(cls, namespace, function_name, *args):
         """One shot convenience method to that invokes a function."""
-        inst = ClojureWrapper(namespace)
+        inst = Clojure(namespace)
         try:
             return inst.invoke(function_name, *args)
         finally:
@@ -99,4 +111,4 @@ usage:
     @classmethod
     def kill_server(cls):
         """Stop the Clojure p4j gateway server (careful!)."""
-        ClojureWrapper.call('zensols.py4j.gateway', 'shutdown')
+        Clojure.call('zensols.py4j.gateway', 'shutdown')

@@ -19,7 +19,6 @@
              (-> (InvokableNamespace/instance "clojure.string")
                  (.invoke "join" args)))))))
 
-
 ;;; comment this out until figure out a way to run with DynamicClassloader
 ;;
 ;; (deftest test-deps
@@ -31,3 +30,18 @@
 ;;              (let [bytes (.invoke func "freeze" (into-array [item]))]
 ;;                (eval '(do (require '[taoensso.nippy])))
 ;;                ((ns-resolve 'taoensso.nippy 'thaw) bytes)))))))
+
+(deftest test-eval
+  (testing "evaulation"
+    (is (= "a: 123\nb: 1.2\n"
+           (with-out-str
+             (-> (InvokableNamespace/instance)
+                 (.eval "(println \"a:\" a) (println \"b:\" b)"
+                        {"a" 123 "b" 1.2})))))))
+
+(deftest test-eval-ns
+  (testing "test def in ns"
+    (is (= 'asym4
+           (do (-> (InvokableNamespace/instance)
+                   (.eval "(def testvar2 'asym4)" nil))
+               (eval 'user/testvar2))))))

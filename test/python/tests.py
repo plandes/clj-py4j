@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
 import unittest, logging, sys
-from zensols.clojure import ClojureWrapper
+from zensols.clojure import Clojure
 
 logger = logging.getLogger('py4j.clojure')
 
-class TestClojureWrapper(unittest.TestCase):
+class TestClojure(unittest.TestCase):
     def test_call(self):
-        self.assertEqual('test||one||2234', ClojureWrapper.call('clojure.string', 'join', '||', ['test', 'one', 2234]))
+        self.assertEqual('test||one||2234', Clojure.call('clojure.string', 'join', '||', ['test', 'one', 2234]))
 
     def test_nippy(self):
-        cw = ClojureWrapper('taoensso.nippy')
+        cw = Clojure('taoensso.nippy')
         try:
             cw.add_depenedency('com.taoensso', 'nippy', '2.13.0')
             dat = cw.invoke('freeze', [123, 'strarg', 1.2])
@@ -22,12 +22,20 @@ class TestClojureWrapper(unittest.TestCase):
             cw.close()
 
     def test_entrypoint(self):
-        cw = ClojureWrapper()
+        cw = Clojure()
         try:
             ep = cw.entry_point
             logger.info('entry point: %s' % ep)
             eps = ep.toString()
             self.assertGreater(len(eps), 0)
+        finally:
+            cw.close()
+
+    def test_eval(self):
+        cw = Clojure()
+        try:
+            ret = cw.eval('(+ 1 1 a b)', {'a': 5.5, 'b': 8})
+            self.assertEqual(ret, 15.5)
         finally:
             cw.close()
 
@@ -39,7 +47,7 @@ def main(args=sys.argv[1:]):
     #enable_debug()
     if len(args) > 0 and args[0] == 'kill':
         print('shutting down...')
-        ClojureWrapper.kill_server()
+        Clojure.kill_server()
     else:
         unittest.main()
 
