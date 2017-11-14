@@ -8,7 +8,7 @@ setup(
     author = 'Paul Landes',
     author_email = 'landes@mailc.net',
     url = 'https://github.com/plandes/clj-py4j',
-    download_url = 'https://github.com/plandes/clj-py4j/releases/download/v0.0.2/zensols.clojure-0.2-py3-none-any.whl'
+    download_url = 'https://github.com/plandes/clj-py4j/releases/download/v0.0.2/zensols.clojure-0.2-py3-none-any.whl',
     keywords = ['clojure', 'py4j', 'gateway'],
     classifiers = [],
 )
