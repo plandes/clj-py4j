@@ -43,10 +43,10 @@ The end to end request looks like:
 First [download, install and run the server](#installing-and-running)
 
 ```python
-from zensols.clojure import ClojureWrapper
+from zensols.clojure import Clojure
 
 def test():
-    cw = ClojureWrapper('taoensso.nippy')
+    cw = Clojure('taoensso.nippy')
     try:
         cw.add_depenedency('com.taoensso', 'nippy', '2.13.0')
         dat = cw.invoke('freeze', [123, 'strarg', 1.2])
@@ -83,11 +83,11 @@ model:
 
 ```python
 import json
-from zensols.clojure import ClojureWrapper
+from zensols.clojure import Clojure
 
 def test():
-    parse = ClojureWrapper('zensols.nlparse.parse')
-    cjson = ClojureWrapper('clojure.data.json')
+    parse = Clojure('zensols.nlparse.parse')
+    cjson = Clojure('clojure.data.json')
     try:
         parse.add_depenedency('com.zensols.nlp', 'parse', '0.1.4')
         cjson.add_depenedency('org.clojure', 'data.json', '0.2.6')
