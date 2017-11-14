@@ -6,7 +6,7 @@ ZBHOME ?=	../clj-zenbuild
 #APP_NAME=	py4jgw
 ANRRES=		py4jgw
 
-REL_DIST ?=	$(REL_ZIP)
+REL_DIST ?=	$(REL_ZIP) $(MTARG_PYDIST_ATFC)
 
 all:		info
 
