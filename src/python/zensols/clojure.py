@@ -109,6 +109,15 @@ usage:
             inst.close()
 
     @classmethod
+    def eval_default(cls, code, context=None):
+        """One shot convenience method to evaulate in the default namespace."""
+        inst = Clojure(namespace)
+        try:
+            return inst.eval(code, context)
+        finally:
+            inst.close()
+
+    @classmethod
     def kill_server(cls):
         """Stop the Clojure p4j gateway server (careful!)."""
-        Clojure.call('zensols.py4j.gateway', 'shutdown')
+        Clojure.eval_default('(zensols.py4j.gateway/shutdown :now 100)')

@@ -44,4 +44,4 @@
     (is (= 'asym4
            (do (-> (InvokableNamespace/instance)
                    (.eval "(def testvar2 'asym4)" nil))
-               (eval 'user/testvar2))))))
+               (eval 'zensols.py4j.ns/testvar2))))))

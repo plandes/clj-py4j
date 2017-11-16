@@ -35,16 +35,34 @@ the [[zensols.py4j.invoke-namespace]] library."
       :or {port default-port
            entry-point (invokable-namespace)}}]
   (locking server-inst
-    (swap! server-inst #(or % (doto (GatewayServer. entry-point port)
-                                (.start))))))
+    (swap! server-inst
+           #(or % (do (log/infof "starting gateway on port %s" port)
+                      (doto (GatewayServer. entry-point port)
+                        (.start)))))))
+
+(defn- shutdown-gateway
+  "Shutdown the give gateway immediately."
+  [gw]
+  (log/info "shutting down gateway")
+  (.shutdown gw))
 
 (defn shutdown
-  "Shutdown the gateway server."
-  []
+  "Shutdown the gateway server.  If key `:when` is provided it will shutdown
+  the gateway immediately if `:now`, otherwise it expects an integer in
+  milliseconds in the future to shut it down. "
+  [& {:keys [when]
+      :or {when :now}}]
   (locking server-inst
-    (swap! server-inst (fn [gw]
-                         (and gw (.shutdown gw))
-                         nil))))
+    (swap! server-inst
+           (fn [gw]
+             (if gw
+               (cond (= when :now) (shutdown-gateway gw)
+                     (integer? when) (future (do (Thread/sleep when)
+                                                 (shutdown-gateway gw)))
+                     true (-> (format "Unknown shutdown when state: %s" when)
+                              (ex-info {:when when})
+                              throw)))
+             nil))))
 
 (defn restart
   "Restart the gateway server."

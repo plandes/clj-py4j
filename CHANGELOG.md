@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Better namespace handing.
 - Fixed ancient py4j dependency.
 
+### Added
+- Shutdown timeout for better integration test finish.
+
+
 ## [0.0.2] - 2017-11-13
 ### Added
 - Evaluation of any Clojure code with variable binding.
