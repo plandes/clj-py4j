@@ -21,6 +21,9 @@
    :prefix "ins-"))
 
 (def invoke-default-namespace
+  "The default namespace that Python `Clojure` instances start.
+
+  See [[zensols.py4j.ns]]."
   'zensols.py4j.ns)
 
 (def ^:private requires (atom #{}))

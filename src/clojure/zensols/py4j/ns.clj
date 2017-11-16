@@ -1,4 +1,8 @@
-(ns ^{:doc "Namespace macros taken from
+(ns ^{:doc "This is the default namespace that a Python `Clojure` instance
+starts in.  The idea is to add all root variable bindings to this namespace and
+have the convenience of the namespace macros.
+
+Namespace macros taken from
 [clojure/clojure-contrib](https://clojure.github.io/clojure-contrib/with-ns-api.html)."}
     zensols.py4j.ns)
 
