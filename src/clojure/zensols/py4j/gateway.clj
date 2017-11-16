@@ -42,25 +42,30 @@ the [[zensols.py4j.invoke-namespace]] library."
 
 (defn- shutdown-gateway
   "Shutdown the give gateway immediately."
-  [gw]
+  [gw exit?]
   (log/info "shutting down gateway")
-  (.shutdown gw))
+  (.shutdown gw)
+  (when exit?
+    (log/info "exiting JVM")
+    (System/exit 0)))
 
 (defn shutdown
-  "Shutdown the gateway server.  If key `:when` is provided it will shutdown
+  "Shutdown the gateway server.  If key `:timeout` is provided it will shutdown
   the gateway immediately if `:now`, otherwise it expects an integer in
   milliseconds in the future to shut it down. "
-  [& {:keys [when]
-      :or {when :now}}]
+  [& {:keys [timeout exit?]
+      :or {timeout :now
+           exit? false}}]
   (locking server-inst
     (swap! server-inst
            (fn [gw]
-             (if gw
-               (cond (= when :now) (shutdown-gateway gw)
-                     (integer? when) (future (do (Thread/sleep when)
-                                                 (shutdown-gateway gw)))
-                     true (-> (format "Unknown shutdown when state: %s" when)
-                              (ex-info {:when when})
+             (when gw
+               (log/infof "shutting down gateway with timeout: %s" timeout)
+               (cond (= timeout :now) (shutdown-gateway gw exit?)
+                     (integer? timeout) (future (do (Thread/sleep timeout)
+                                                    (shutdown-gateway gw exit?)))
+                     true (-> (format "Unknown shutdown timeout: %s" timeout)
+                              (ex-info {:timeout timeout})
                               throw)))
              nil))))
 
@@ -90,10 +95,19 @@ the [[zensols.py4j.invoke-namespace]] library."
     (gateway-port-set-option)
     ["-e" "--entry" "use the option given as the entry point for the gateway"
      :required "<string>"]
-    (repl/repl-port-set-option "-r" "--replport" nil)]
-   :app (fn [{:keys [port entry replport] :as opts} & args]
+    (repl/repl-port-set-option "-r" "--replport" nil)
+    ["-t" "--timeout" "time to keep the gateway or forever if not given"
+     :required "<milliseconds>"
+     :default 0
+     :parse-fn #(Integer/parseInt %)]]
+   :app (fn [{:keys [port entry replport timeout] :as opts} & args]
           (if replport
             (repl/run-server replport))
           (if entry
             (gateway :port port :entry-point entry)
-            (gateway :port port)))})
+            (gateway :port port))
+          (when (and timeout (> timeout 0))
+            (future
+              (Thread/sleep timeout)
+              (log/infof "timeout expired--exiting")
+              (System/exit 0))))})

@@ -2,10 +2,7 @@
 
 # location of the http://github.com/plandes/clj-zenbuild cloned directory
 ZBHOME ?=	../clj-zenbuild
-
-#APP_NAME=	py4jgw
 ANRRES=		py4jgw
-
 REL_DIST ?=	$(REL_ZIP) $(MTARG_PYDIST_ATFC)
 
 all:		info
@@ -26,10 +23,12 @@ test:
 # integration tests output errors (specifically when the java server exists)
 .PHONY:	inttest
 inttest:
-	make runserv &
-	sleep 10
+	lein with-profile +runserv run -t 10000 &
+	@for i in `seq 1 10` ; do \
+		echo attempt gateway connection $$i ; \
+		nc -d -w 0 localhost 25333 && break ; \
+	done
 	make pytest
-	PYTHONPATH=$(PY_SRC) python $(PY_SRC_TEST)/* kill 2>/dev/null || true
 
 .PHONY:	pinst
 pinst:
