@@ -39,6 +39,51 @@ class TestClojure(unittest.TestCase):
         finally:
             cw.close()
 
+    def test_other_namespace(self):
+        cw = Clojure('clojure.string')
+        try:
+            ret = cw.eval("""
+(join "," ["one" "two" "three"])
+""")
+            self.assertEqual(ret, "one,two,three")
+        finally:
+            cw.close()
+
+    def test_namespace(self):
+        cw = Clojure()
+        try:
+            ret = cw.eval("""
+(with-ns 'clojure.string
+  (join "," ["one" "two" "three"]))
+""")
+            self.assertEqual(ret, "one,two,three")
+        finally:
+            cw.close()
+
+    def test_temp_namespace(self):
+        cw = Clojure()
+        try:
+            ret = cw.eval("""
+(with-temp-ns 'some-new-ns
+  (def never-seen 2)
+  (require '[clojure.string :as s])
+  (s/join "," ["one" "two" "three" never-seen]))
+""")
+            self.assertEqual(ret, "one,two,three,2")
+        finally:
+            cw.close()
+
+    def test_entrypoint_ns(self):
+        cw = Clojure()
+        try:
+            ep = cw.entry_point
+            self.assertEqual(ep.eval("""
+(with-ns 'clojure.string
+  (capitalize "stuff"))
+"""), "Stuff")
+        finally:
+            cw.close()
+
 def enable_debug():
     logging.basicConfig(level=logging.WARN)
     logger.setLevel(logging.INFO)

@@ -8,7 +8,8 @@ the [[zensols.py4j.invoke-namespace]] library."
   (:require [clojure.tools.logging :as log]
             [zensols.actioncli.log4j2 :as lu]
             [zensols.actioncli.repl :as repl]
-            [zensols.py4j.invoke-namespace :as f])
+            ;; needed to define the InvokeableNamespace import
+            [zensols.py4j.invoke-namespace :as in])
   ;; order matters
   (:import [com.zensols.py4j InvokableNamespace]))
 
@@ -22,7 +23,7 @@ the [[zensols.py4j.invoke-namespace]] library."
 
 (defn invokable-namespace
   "Create a default invokable namespace."
-  ([] (invokable-namespace "zensols.py4j.gateway"))
+  ([] (invokable-namespace (name in/invoke-default-namespace)))
   ([namespace]
    (InvokableNamespace/instance namespace)))
 

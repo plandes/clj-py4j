@@ -3,8 +3,9 @@
     zensols.py4j.invoke-namespace
   (:require [clojure.tools.logging :as log]
             [clojure.string :as s]
+            [clojure.java.io :as io]
             [cemerick.pomegranate :as pom]
-            [clojure.java.io :as io])
+            [zensols.py4j.ns :refer (with-ns)])
   (:gen-class
    :name "com.zensols.py4j.InvokableNamespace"
    :init init
@@ -18,6 +19,9 @@
              [eval [String java.util.Map] Object]
              [eval [String] Object]]
    :prefix "ins-"))
+
+(def invoke-default-namespace
+  'zensols.py4j.ns)
 
 (def ^:private requires (atom #{}))
 
@@ -53,7 +57,7 @@
 (defn ins-instance
   ([] (ins-instance nil))
   ([namespace]
-   (let [namespace (or namespace "user")]
+   (let [namespace (or namespace (name invoke-default-namespace))]
      (eval `(new com.zensols.py4j.InvokableNamespace ~namespace)))))
 
 (defn ins-getNamespace [this]
@@ -74,15 +78,6 @@
 
 (defn ins-toString [this]
   (str "namespace=" (ins-getNamespace this)))
-
-;; taken from clojure/clojure-contrib
-(defmacro with-ns
-  "Evaluates body in another namespace.  ns is either a namespace
-  object or a symbol.  This makes it possible to define functions in
-  namespaces other than the current one."
-  [ns & body]
-  `(binding [*ns* (the-ns ~ns)]
-     ~@(map (fn [form] `(eval '~form)) body)))
 
 (defn ins-eval
   "Eval Clojure **code** by binding **context** in a `let` and return results

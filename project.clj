@@ -39,7 +39,7 @@
                  [com.cemerick/pomegranate "1.0.0"]
 
                  ;; py4j gateway server
-                 [net.sf.py4j/py4j "0.8.1"]]
+                 [net.sf.py4j/py4j "0.10.6"]]
   :pom-plugins [[org.codehaus.mojo/appassembler-maven-plugin "1.6"
                  {:configuration ([:programs
                                    [:program
