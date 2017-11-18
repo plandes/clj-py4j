@@ -1,3 +1,4 @@
+import py4j
 from py4j.java_gateway import JavaGateway, GatewayParameters
 import logging
 
@@ -39,6 +40,31 @@ usage:
         for k, v in odict.items():
             m.put(k, v)
         return m
+
+    def _python_array(self, arr):
+        size = len(arr)
+        pa = size * [None]
+        for i in range(size):
+            pa[i] = self.python_object(arr[i])
+        return pa
+
+    def _python_dict(self, m):
+        pm = self.eval("""(->> m (map (fn [[k v]] {(name k) v})) (apply merge))""",
+                       {'m': m})
+        pd = {}
+        for e in pm.entrySet():
+            pd[e.getKey()] = self.python_object(e.getValue())
+        return pd
+
+    def python_object(self, o):
+        if isinstance(o, py4j.java_collections.JavaList):
+            return self._python_array(o)
+        elif isinstance(o, py4j.java_collections.JavaMap):
+            return self._python_dict(o)
+        elif isinstance(o, py4j.java_gateway.JavaObject) and \
+             o.getClass().getName() == 'clojure.lang.Keyword':
+            return o.toString()
+        else: return o;
 
     @property
     def _gw(self):

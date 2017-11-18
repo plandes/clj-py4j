@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import py4j
 import unittest, logging, sys
 from zensols.clojure import Clojure
 
@@ -83,6 +84,39 @@ class TestClojure(unittest.TestCase):
 """), "Stuff")
         finally:
             cw.close()
+
+    def test_python_object(self):
+        cw = Clojure()
+        try:
+            o = cw.eval("""{:a 1 :b 2 :arr [{:animal "dog"} 99.2 :kw]}""")
+            o = cw.python_object(o)
+            self.assertTrue(isinstance(o, dict))
+            aval = o['a']
+            self.assertTrue(isinstance(aval, int))
+            self.assertEqual(aval, 1)
+            arr = o['arr']
+            self.assertTrue(isinstance(arr, list))
+            arrmap = arr[0]
+            self.assertTrue(isinstance(arrmap, dict))
+            mval = arrmap['animal']
+            self.assertTrue(isinstance(mval, str))
+            self.assertEqual('dog', mval)
+            self.assertEqual(arr[1], 99.2)
+            self.assertTrue(isinstance(arr[2], str))
+            self.assertEqual(arr[2], ':kw')
+        finally:
+            cw.close()
+
+    def test_embedded_python_object(self):
+        cw = Clojure()
+        try:
+            o = cw.eval("""{:last :map}""")
+            o = cw.eval("""{:a 1 :b 2 :arr [{:animal "dog"} 99.2 :kw lm]}""", {'lm': o})
+            o = cw.python_object(o)
+            self.assertEqual(o['arr'][3]['last'], ':map')
+        finally:
+            cw.close()
+
 
 def enable_debug():
     logging.basicConfig(level=logging.WARN)
