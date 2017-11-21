@@ -4,6 +4,8 @@ import logging
 
 logger = logging.getLogger('py4j.clojure')
 
+DEFAULT_NAMESPACE = 'zensols.py4j.ns'
+
 class Clojure(object):
     """
     Invoke Clojure call via a py4j gateway.
@@ -49,15 +51,15 @@ usage:
         return pa
 
     def _python_dict(self, m):
-        pm = self.eval("""(->> m (map (fn [[k v]] {(name k) v})) (apply merge))""",
-                       {'m': m})
+        pm = self.invoke('%s/%s' % (DEFAULT_NAMESPACE, 'stringify-keys'), m)
         pd = {}
         for e in pm.entrySet():
             pd[e.getKey()] = self.python_object(e.getValue())
         return pd
 
     def python_object(self, o):
-        if isinstance(o, py4j.java_collections.JavaList):
+        if isinstance(o, py4j.java_collections.JavaList) or \
+           isinstance(o, py4j.java_collections.JavaArray):
             return self._python_array(o)
         elif isinstance(o, py4j.java_collections.JavaMap):
             return self._python_dict(o)

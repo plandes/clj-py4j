@@ -25,3 +25,11 @@ Namespace macros taken from
                     ~@body)]
       result#)
     (finally (remove-ns 'sym#))))
+
+(defn stringify-keys
+  "Converts all keywords to strings for all keys in **m**."
+  [m]
+  (->> m
+       (map (fn [[k v]]
+              {(name k) v}))
+       (apply merge)))
