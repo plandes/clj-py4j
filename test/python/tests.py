@@ -4,7 +4,7 @@ import py4j
 import unittest, logging, sys
 from zensols.clojure import Clojure
 
-logger = logging.getLogger('py4j.clojure')
+logger = logging.getLogger('py4j.clojure.test')
 
 class TestClojure(unittest.TestCase):
     def test_call(self):
@@ -92,6 +92,7 @@ class TestClojure(unittest.TestCase):
             o = cw.python_object(o)
             self.assertTrue(isinstance(o, dict))
             aval = o['a']
+            logger.info('aval: %s (%s)' % (aval, type(aval)))
             self.assertTrue(isinstance(aval, int))
             self.assertEqual(aval, 1)
             arr = o['arr']
@@ -120,10 +121,11 @@ class TestClojure(unittest.TestCase):
 
 def enable_debug():
     logging.basicConfig(level=logging.WARN)
-    logger.setLevel(logging.INFO)
+    #logging.getLogger('py4j.clojure').setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
 def main(args=sys.argv[1:]):
-    #enable_debug()
+    enable_debug()
     if len(args) > 0 and args[0] == 'kill':
         print('shutting down...')
         Clojure.kill_server()
