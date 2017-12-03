@@ -19,9 +19,10 @@ test:
 .PHONY:	inttest
 inttest:
 	lein with-profile +runserv run -t 10000 &
-	@for i in `seq 1 20` ; do \
+	@for i in `seq 1 30` ; do \
 		echo attempt gateway connection $$i ; \
 		nc -d -w 0 localhost 25333 && break ; \
+		sleep 1 ; \
 	done
 	make pytest
 
