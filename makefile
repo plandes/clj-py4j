@@ -1,16 +1,11 @@
 ## makefile automates the build and deployment for lein projects
 
-# location of the http://github.com/plandes/clj-zenbuild cloned directory
-ZBHOME ?=	../clj-zenbuild
-ANRRES=		py4jgw
-REL_DIST ?=	$(REL_ZIP) $(MTARG_PYDIST_ATFC)
+PROJ_TYPE=		clojure
+PROJ_MODULES=		dist python release
+ANRRES=			py4jgw
+REL_DIST ?=		$(REL_ZIP) $(MTARG_PYDIST_ATFC)
 
-all:		info
-
-include $(ZBHOME)/src/mk/compile.mk
-include $(ZBHOME)/src/mk/dist.mk
-include $(ZBHOME)/src/mk/python.mk
-include $(ZBHOME)/src/mk/release.mk
+include $(if $(ZBHOME),$(ZBHOME),../zenbuild)/main.mk
 
 .PHONY:	runserv
 runserv:
