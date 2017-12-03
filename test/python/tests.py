@@ -104,12 +104,12 @@ class TestClojure(unittest.TestCase):
             self.assertTrue(isinstance(arrmap, dict))
             mval = arrmap['animal']
             self.log_val(mval)
-            self.assertTrue(isinstance(mval, str))
+            self.assertTrue(isinstance(mval, str) or isinstance(mval, unicode))
             self.assertEqual('dog', mval)
             self.log_val(arr[1])
             self.assertEqual(arr[1], 99.2)
             self.log_val(arr[2])
-            self.assertTrue(isinstance(arr[2], str))
+            self.assertTrue(isinstance(arr[2], str) or isinstance(arr[2], unicode))
             self.assertEqual(arr[2], ':kw')
         finally:
             cw.close()
