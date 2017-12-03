@@ -2,9 +2,12 @@ language: clojure
 lein: 2.7.1
 python:
   - "3.6"
+  - "pypy3"
 before_script:
   - mkdir -p target
   - git clone http://github.com/plandes/zenbuild
-script: ZBHOME=zenbuild make checkdep test pydeps inttest
+install:
+  - pip install -r src/python/requirements.txt
+script: ZBHOME=zenbuild make checkdep test inttest
 jdk:
   - oraclejdk8
