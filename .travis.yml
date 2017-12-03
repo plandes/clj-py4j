@@ -1,12 +1,13 @@
 language: clojure
 lein: 2.7.1
-python: '3.6'
+dist: "trusty" 
+#python: '3.6'
 before_script:
   - source ~/virtualenv/python3.5/bin/activate
   - mkdir -p target
   - git clone http://github.com/plandes/zenbuild
-install:
-  - pip install -r src/python/requirements.txt
+before_install:
+  - pip3 install -r src/python/requirements.txt
 script: ZBHOME=zenbuild make checkdep test inttest
 jdk:
   - oraclejdk8
