@@ -93,7 +93,7 @@ class TestClojure(unittest.TestCase):
             self.assertTrue(isinstance(o, dict))
             aval = o['a']
             logger.info('aval: %s (%s)' % (aval, type(aval)))
-            self.assertTrue(isinstance(aval, int))
+            self.assertTrue(isinstance(aval, int) or isinstance(aval, long))
             self.assertEqual(aval, 1)
             arr = o['arr']
             self.assertTrue(isinstance(arr, list))
@@ -125,7 +125,7 @@ def enable_debug():
     logger.setLevel(logging.DEBUG)
 
 def main(args=sys.argv[1:]):
-    enable_debug()
+    #enable_debug()
     if len(args) > 0 and args[0] == 'kill':
         print('shutting down...')
         Clojure.kill_server()
