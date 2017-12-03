@@ -85,6 +85,9 @@ class TestClojure(unittest.TestCase):
         finally:
             cw.close()
 
+    def log_val(self, v):
+        logger.info('aval: %s (%s)' % (v, type(v)))
+
     def test_python_object(self):
         cw = Clojure()
         try:
@@ -92,7 +95,7 @@ class TestClojure(unittest.TestCase):
             o = cw.python_object(o)
             self.assertTrue(isinstance(o, dict))
             aval = o['a']
-            logger.info('aval: %s (%s)' % (aval, type(aval)))
+            self.log_val(aval)
             self.assertTrue(isinstance(aval, int) or isinstance(aval, long))
             self.assertEqual(aval, 1)
             arr = o['arr']
@@ -100,10 +103,12 @@ class TestClojure(unittest.TestCase):
             arrmap = arr[0]
             self.assertTrue(isinstance(arrmap, dict))
             mval = arrmap['animal']
-            logger.info('aminmal: %s (%s)' % (aval, type(aval)))
+            self.log_val(mval)
             self.assertTrue(isinstance(mval, str))
             self.assertEqual('dog', mval)
+            self.log_val(arr[1])
             self.assertEqual(arr[1], 99.2)
+            self.log_val(arr[2])
             self.assertTrue(isinstance(arr[2], str))
             self.assertEqual(arr[2], ':kw')
         finally:
