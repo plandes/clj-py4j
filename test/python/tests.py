@@ -126,7 +126,7 @@ def enable_debug():
     logger.setLevel(logging.DEBUG)
 
 def main(args=sys.argv[1:]):
-    #enable_debug()
+    enable_debug()
     if len(args) > 0 and args[0] == 'kill':
         print('shutting down...')
         Clojure.kill_server()
