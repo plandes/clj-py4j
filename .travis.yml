@@ -3,6 +3,6 @@ lein: 2.7.1
 before_script:
   - mkdir -p target
   - git clone http://github.com/plandes/zenbuild
-script: ZBHOME=zenbuild make checkdep test inttest
+script: ZBHOME=zenbuild make checkdep test pydeps inttest
 jdk:
   - oraclejdk8
