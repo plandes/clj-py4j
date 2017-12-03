@@ -18,7 +18,7 @@ test:
 # integration tests output errors (specifically when the java server exists)
 .PHONY:	inttest
 inttest:
-	lein with-profile +runserv run -t 10000 &
+	lein with-profile +runserv run -t 15000 &
 	@for i in `seq 1 30` ; do \
 		echo attempt gateway connection $$i ; \
 		nc -d -w 0 localhost 25333 && break ; \
