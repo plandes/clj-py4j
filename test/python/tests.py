@@ -100,6 +100,7 @@ class TestClojure(unittest.TestCase):
             arrmap = arr[0]
             self.assertTrue(isinstance(arrmap, dict))
             mval = arrmap['animal']
+            logger.info('aminmal: %s (%s)' % (aval, type(aval)))
             self.assertTrue(isinstance(mval, str))
             self.assertEqual('dog', mval)
             self.assertEqual(arr[1], 99.2)
