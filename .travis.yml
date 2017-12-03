@@ -12,6 +12,6 @@ before_script:
   - git clone http://github.com/plandes/zenbuild
 before_install:
   - sudo pip3 install -r src/python/requirements.txt
-script: ZBHOME=zenbuild make checkdep test inttest
+script: PYTHON_BIN=python3 ZBHOME=zenbuild make checkdep test inttest
 jdk:
   - oraclejdk8
