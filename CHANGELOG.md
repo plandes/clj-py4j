@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
 ### Changed
 - Move to new zenbuild.
+
+### Added
+- Integration tests in travis.
 
 
 ## [0.0.5] - 2017-11-17

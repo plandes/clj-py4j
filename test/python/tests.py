@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import py4j
-import unittest, logging, sys
+import unittest, logging, sys, os
 from zensols.clojure import Clojure
 
 logger = logging.getLogger('py4j.clojure.test')
@@ -127,8 +127,8 @@ class TestClojure(unittest.TestCase):
 
 def enable_debug():
     logging.basicConfig(level=logging.WARN)
-    #logging.getLogger('py4j.clojure').setLevel(logging.INFO)
-    logger.setLevel(logging.DEBUG)
+    if 'TEST_DEBUG' in os.environ and os.environ['TEST_DEBUG']:
+        logger.setLevel(logging.DEBUG)
 
 def main(args=sys.argv[1:]):
     enable_debug()

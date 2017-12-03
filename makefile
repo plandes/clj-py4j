@@ -30,3 +30,7 @@ inttest:
 pinst:
 	yes | pip uninstall clojure || true
 	make pyinstall
+
+.PHNOY:	pydebugtest
+pydebugtest:
+	make TEST_DEBUG=1 pytest
